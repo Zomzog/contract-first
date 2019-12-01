@@ -1,0 +1,8 @@
+
+slides/node_modules/
+
+slides/build/
+
+code/server/.idea/
+
+*.iml

@@ -1,0 +1,104 @@
+:source-highlighter: highlightjs
+:revealjs_theme: league
+:revealjs_progress: true
+:revealjs_slideNumber: true
+:revealjs_history: true
+:revealjs_customtheme: css/zomzog.css
+:revealjs_showNotes: true
+:imagesdir: images
+:customcss: css/custom.css
+
+= API Contract first
+
+== What does API-First mean?
+
+[quote, Restlet]
+____
+API-first software development refers to a set of practices that formally recognize APIs as a first-class artefact of software development, and emphasize their strategic and architectural importance.
+____
+
+== Code-first
+
+[fragment]#Backend team code something#
+
+[fragment]#Generate swagger at runtime#
+
+[fragment]#Quicker, easier, more seductive#
+
+[NOTE.speaker]
+--
+C'est ce qu'on faisait en soap (sauf les fondus qui on fait un wsdl a la main).
+
+Trop facile de faire des changements api/model.
+--
+
+== Contract first
+
+[fragment]#Start with a contract (OpenApi file)#
+
+[fragment]#Everyone can mock from it#
+
+[fragment]#Contract can be versioned#
+
+== Choose your weapon
+
+image::apigee.png[]
+
+image::postman.png[]
+
+image::spotlight.png[]
+
+[transition=fade]
+== And now?
+
+image::travolta.jpg[canvas,size=contain]
+[NOTE.speaker]
+--
+Il faut quelque chose pour faire la glue entre api et code.
+--
+
+
+== TODO
+
+== CLI from scratch ?
+== Generer un Backend Gradle
+== Generer un client Maven
+
+== Generated DTO vs Domain
+Ca a un cout mais c'est pas si mal car on peut generer facilement avoir plusieurs version du client généré c'est valide aussi pour le back O M F G ! 
+
+Maintenir facilement api v1 et v2 avec le meme code apres ! 
+
+Penser a utiliser des mapper type mapstruct
+
+== Generer de la doc ?
+
+== Example de generateur custom ?
+
+== Quand? 
+
+Mission Critical APIs.
+When your API’s target audience are external customers
+
+== To Contract-First and beyond  !
+
+image::toInfinity.gif[]
+
+== Fix API specification
+
+Springfox is less than perfect
+
+[.red]
+[fragment]#Spring Pageable#
+
+[.red]
+[fragment]#Generics#
+
+[.red]
+[fragment]#Nicknames#
+
+== One step at a time
+
+[fragment]#Generate DTO and map them to your domain#
+
+[fragment]#Generate and replace API#
