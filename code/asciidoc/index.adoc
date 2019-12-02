@@ -1,0 +1,515 @@
+= My Little Pony 
+team@openapitools.org
+1.0.0
+:toc: left
+:numbered:
+:toclevels: 3
+:source-highlighter: highlightjs
+:keywords: openapi, rest, My Little Pony 
+:specDir: 
+:snippetDir: 
+:generator-template: v1 2019-11-19
+:info-url: https://openapi-generator.tech
+:app-name: My Little Pony
+
+[abstract]
+.Abstract
+Friendship is magic
+
+
+// markup not found, no include ::intro.adoc[opts=optional]
+
+
+
+== Endpoints
+
+
+[.Default]
+=== Default
+
+
+[.create]
+==== create
+    
+`POST /ponies`
+
+Create
+
+===== Description 
+
+
+
+
+// markup not found, no include ::ponies/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| Pony 
+|  <<Pony>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<Pony>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 201
+| Status 201
+|  <<Pony>>
+
+
+| 400
+| Status 400
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include ::ponies/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include ::ponies/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :ponies/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include ::ponies/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.deleteOne]
+==== deleteOne
+    
+`DELETE /ponies/{ponyId}`
+
+Delete one
+
+===== Description 
+
+
+
+
+// markup not found, no include ::ponies/{ponyId}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ponyId 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Status 200
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include ::ponies/{ponyId}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include ::ponies/{ponyId}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :ponies/{ponyId}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include ::ponies/{ponyId}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getOne]
+==== getOne
+    
+`GET /ponies/{ponyId}`
+
+Get one
+
+===== Description 
+
+
+
+
+// markup not found, no include ::ponies/{ponyId}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ponyId 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<Pony>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Status 200
+|  <<Pony>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include ::ponies/{ponyId}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include ::ponies/{ponyId}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :ponies/{ponyId}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include ::ponies/{ponyId}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.list]
+==== list
+    
+`GET /ponies`
+
+List
+
+===== Description 
+
+
+
+
+// markup not found, no include ::ponies/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| name 
+|   
+| - 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+array[<<Pony>>]
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Status 200
+| List[<<Pony>>] 
+
+
+| 400
+| Status 400
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include ::ponies/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include ::ponies/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :ponies/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include ::ponies/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.update]
+==== update
+    
+`PUT /ponies/{ponyId}`
+
+Update
+
+===== Description 
+
+
+
+
+// markup not found, no include ::ponies/{ponyId}/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| ponyId 
+|   
+| X 
+| null 
+|  
+
+|===         
+
+===== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| Pony 
+|  <<Pony>> 
+| - 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<Pony>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| Status 200
+|  <<Pony>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include ::ponies/{ponyId}/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include ::ponies/{ponyId}/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :ponies/{ponyId}/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include ::ponies/{ponyId}/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[#models]
+== Models
+
+
+[#Color]
+=== _Color_ 
+
+
+
+[.fields-Color]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+|===
+
+
+[#Pony]
+=== _Pony_ 
+
+
+
+[.fields-Pony]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| Id 
+|  
+| String  
+| 
+|  
+
+| Name 
+| X 
+| String  
+| 
+|  
+
+| Color 
+| X 
+| Color  
+| 
+|  
+
+| CreatedAt 
+|  
+| Long  
+| Timestamp
+| int64 
+
+|===
+
+
