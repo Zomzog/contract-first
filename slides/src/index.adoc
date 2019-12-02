@@ -102,3 +102,57 @@ Springfox is less than perfect
 [fragment]#Generate DTO and map them to your domain#
 
 [fragment]#Generate and replace API#
+
+== Demo 
+
+=== First generation
+`npx openapi-generator generate -i .\api.yml -g spring -o ./spring`
+
+
+=== Api first generation
+
+`npx openapi-generator generate -i .\api.yml -g spring -p apiFirst=true -o ./spring-api`
+
+=== Plugin tweak
+
+[source, xml, numbered]
+----
+<plugin>
+    <groupId>org.openapitools</groupId>
+    <artifactId>openapi-generator-maven-plugin</artifactId>
+    <version>4.2.2</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>generate</goal>
+            </goals>
+            <configuration>
+                <inputSpec>src/main/resources/openapi.yaml</inputSpec>
+                <generatorName>spring</generatorName>
+                <apiPackage>org.openapitools.api</apiPackage>
+                <modelPackage>org.openapitools.model</modelPackage>
+                <generateSupportingFiles>false</generateSupportingFiles>
+                <configOptions>
+                    <interfaceOnly>true</interfaceOnly>
+                    <delegatePattern>true</delegatePattern>
+                </configOptions>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+----
+
+=== Client
+
+`npx openapi-generator generate -i .\api.yml -g java --library=feign -o ./client`
+
+
+[source, xml, numbered]
+----
+        DefaultApi apiClient = new ApiClient()
+                .setBasePath("http://localhost:8080")
+                .buildClient(DefaultApi.class);
+
+        Pony pony = apiClient.getOne("id");
+        System.out.println("pony = " + pony);
+----
