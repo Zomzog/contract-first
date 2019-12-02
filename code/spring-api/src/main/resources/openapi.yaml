@@ -1,0 +1,147 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  description: Friendship is magic
+  title: My Little Pony
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /ponies:
+    get:
+      operationId: list
+      parameters:
+      - example: Rainbow Dash
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pony'
+                type: array
+          description: Status 200
+        400:
+          description: Status 400
+      summary: List
+      x-accepts: application/json
+    post:
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pony'
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pony'
+          description: Status 201
+        400:
+          description: Status 400
+      summary: Create
+      x-contentType: application/json
+      x-accepts: application/json
+    summary: Everything for ponies
+  /ponies/{ponyId}:
+    delete:
+      operationId: deleteOne
+      parameters:
+      - explode: false
+        in: path
+        name: ponyId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          description: Status 200
+      summary: Delete one
+      x-accepts: application/json
+    get:
+      operationId: getOne
+      parameters:
+      - explode: false
+        in: path
+        name: ponyId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pony'
+          description: Status 200
+      summary: Get one
+      x-accepts: application/json
+    put:
+      operationId: update
+      parameters:
+      - explode: false
+        in: path
+        name: ponyId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pony'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pony'
+          description: Status 200
+      summary: Update
+      x-contentType: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    Pony:
+      example:
+        Color: RED
+        CreatedAt: 0
+        Id: Id
+        Name: Big McIntosh
+      properties:
+        Id:
+          type: string
+        Name:
+          example: Big McIntosh
+          maxLength: 100
+          minLength: 1
+          type: string
+        Color:
+          $ref: '#/components/schemas/Color'
+        CreatedAt:
+          description: Timestamp
+          format: int64
+          type: integer
+      required:
+      - Color
+      - Name
+      type: object
+    Color:
+      enum:
+      - RED
+      - RAINBOW
+      - BLUE
+      example: RED
+      type: string
