@@ -1,9 +1,8 @@
 :source-highlighter: highlightjs
-:revealjs_theme: league
+:revealjs_theme: black
 :revealjs_progress: true
 :revealjs_slideNumber: true
 :revealjs_history: true
-:revealjs_customtheme: css/zomzog.css
 :revealjs_showNotes: true
 :imagesdir: images
 :customcss: css/custom.css
@@ -42,11 +41,7 @@ Trop facile de faire des changements api/model.
 
 == Choose your weapon
 
-image::apigee.png[]
-
-image::postman.png[]
-
-image::spotlight.png[]
+image::editors.png[]
 
 [transition=fade]
 == And now?

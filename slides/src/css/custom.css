@@ -1,3 +1,21 @@
+body:after {
+  content: ' ';
+  position: fixed;
+  bottom: 0em;
+  left: 0em;
+  width: 6em;
+  height: 11em;
+  background: url(../images/logo.svg);
+  background-size: 6em;
+  background-repeat: no-repeat;
+  background-position: 3% 96%; 
+}
+
+.reveal section img {
+  background:none;
+  border: none;
+  box-shadow: none;
+}
 
 .cross {
     position: relative;
