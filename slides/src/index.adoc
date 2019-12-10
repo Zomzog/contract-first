@@ -7,7 +7,7 @@
 :imagesdir: images
 :customcss: css/custom.css
 
-= REST Contract first API
+= Contract-first REST API 
 
 == Heart of the application
 
