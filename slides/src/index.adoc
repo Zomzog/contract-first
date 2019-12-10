@@ -7,7 +7,42 @@
 :imagesdir: images
 :customcss: css/custom.css
 
-= API Contract first
+= REST Contract first API
+
+== Heart of the application
+
+[fragment]#Frontend#
+
+[fragment]#APIs#
+
+[NOTE.speaker]
+--
+Il y a deux choses importantes pour une application
+
+La UI quand il y en a une.
+
+Les API qui sont la UI des dev backend.
+
+Les deux representent la UX de notre produit et doivent etre au coeur de toute notre attention.
+--
+
+== Code-first
+
+[fragment]#Backend team code something#
+
+[fragment]#Generate documentation at runtime#
+
+[fragment]#Quicker, easier, more seductive#
+
+[NOTE.speaker]
+--
+Generation d'un swagger
+
+C'est l'approche classique qui marche tres bien a petite echelle 
+(quand producteur et consommateur de l'api sont les meme)
+
+API souvent va transpirer les choix technos et souvent la base de donnee
+--
 
 == What does API-First mean?
 
@@ -16,33 +51,67 @@ ____
 API-first software development refers to a set of practices that formally recognize APIs as a first-class artefact of software development, and emphasize their strategic and architectural importance.
 ____
 
-== Code-first
-
-[fragment]#Backend team code something#
-
-[fragment]#Generate swagger at runtime#
-
-[fragment]#Quicker, easier, more seductive#
-
 [NOTE.speaker]
 --
-C'est ce qu'on faisait en soap (sauf les fondus qui on fait un wsdl a la main).
+J'ai trouvé ca pendant mes recherches.
 
-Trop facile de faire des changements api/model.
+C'est ca l'idée l'important d'un point de vu strategie/business est plus sur l'api fournis que son implementation
 --
 
 == Contract first
 
-[fragment]#Start with a contract (OpenApi file)#
+[fragment]#Start with a contract#
 
 [fragment]#Everyone can mock from it#
 
-[fragment]#Contract can be versioned#
+[fragment]#Contract can easily be versioned#
+
+[NOTE.speaker]
+--
+Dans notre cas on va s'interesser aux contrats openApi
+
+On est sur que les structures echangés sont les memes, 
+memes sur les petits details (ex id long ou string?)
+--
 
 == Choose your weapon
 
 image::editors.png[]
 
+[NOTE.speaker]
+--
+Bien sur seul l'un d'eux marche vraiment,
+les autres ne sont la que pour montrer qu'il y a un vrai marché qui se monte sur le sujet ces dernieres annees
+--
+
+
+== My little contract
+
+[source, yaml]
+----
+openapi: 3.0.1
+info:
+  contact: {}
+  description: Friendship is magic
+  title: My Little Pony
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /ponies:
+    get:
+      operationId: list
+      parameters:
+      - example: Rainbow Dash
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+----
 [transition=fade]
 == And now?
 
@@ -52,61 +121,42 @@ image::travolta.jpg[canvas,size=contain]
 Il faut quelque chose pour faire la glue entre api et code.
 --
 
+== DRY - Generate
 
-== TODO
+image::openapi-generator.svg[width=30%]
 
-== CLI from scratch ?
-== Generer un Backend Gradle
-== Generer un client Maven
+image::fork.png[]
 
-== Generated DTO vs Domain
-Ca a un cout mais c'est pas si mal car on peut generer facilement avoir plusieurs version du client généré c'est valide aussi pour le back O M F G ! 
+image::stats.png[]
 
-Maintenir facilement api v1 et v2 avec le meme code apres ! 
+[NOTE.speaker]
+--
+Fork de swagger-codegen 2018
 
-Penser a utiliser des mapper type mapstruct
+Generate everything (model, api client, server...) in many language and library
+--
 
-== Generer de la doc ?
 
-== Example de generateur custom ?
+== DEMO !
 
-== Quand? 
-
-Mission Critical APIs.
-When your API’s target audience are external customers
-
-== To Contract-First and beyond  !
-
-image::toInfinity.gif[]
-
-== Fix API specification
-
-Springfox is less than perfect
-
-[.red]
-[fragment]#Spring Pageable#
-
-[.red]
-[fragment]#Generics#
-
-[.red]
-[fragment]#Nicknames#
-
-== One step at a time
-
-[fragment]#Generate DTO and map them to your domain#
-
-[fragment]#Generate and replace API#
-
-== Demo 
+image::keyboard.jpg[width=50%]
 
 === First generation
 `npx openapi-generator generate -i .\api.yml -g spring -o ./spring`
 
+[NOTE.speaker]
+--
+C'est beau on dirait du jhypster ... mais c'est oneshot
+--
 
 === Api first generation
 
 `npx openapi-generator generate -i .\api.yml -g spring -p apiFirst=true -o ./spring-api`
+
+[NOTE.speaker]
+--
+API generé a chaque build on change le fichier ca change le model (et ca compile oupas)
+--
 
 === Plugin tweak
 
@@ -137,17 +187,64 @@ Springfox is less than perfect
 </plugin>
 ----
 
+[NOTE.speaker]
+--
+Intercface only + delegatePattern
+--
+
 === Client
 
 `npx openapi-generator generate -i .\api.yml -g java --library=feign -o ./client`
 
-
 [source, xml, numbered]
 ----
-        DefaultApi apiClient = new ApiClient()
-                .setBasePath("http://localhost:8080")
-                .buildClient(DefaultApi.class);
+DefaultApi apiClient = new ApiClient()
+        .setBasePath("http://localhost:8080")
+        .buildClient(DefaultApi.class);
 
-        Pony pony = apiClient.getOne("id");
-        System.out.println("pony = " + pony);
+Pony pony = apiClient.getOne("id");
+System.out.println("pony = " + pony);
 ----
+
+[NOTE.speaker]
+--
+Choix arbitraire de feign
+--
+
+
+=== Doc ?
+
+`npx openapi-generator generate -i .\api.yml -g asciidoc -o ./asciidoc`
+
+[NOTE.speaker]
+--
+On peut aller jusqu'a la doc
+--
+
+== Just a demo
+
+* Plugin gradle and SBT (test)
+* Java, Scala, Kotlin♥, Go...  
+* Springboot, Ktor, Resttemplate..
+
+== Generated DTO vs Domain
+
+[fragment]#Skip model generation and code them#
+
+== Generated DTO vs Domain
+
+[fragment]#Use mapper like mapstruct#
+
+[NOTE.speaker]
+--
+Plusieurs versions de l'api peuvent cohabiter (test de non reg, migration progressive a une v2)
+--
+
+== Do I need that?
+
+[fragment]#Mission Critical APIs.#
+
+[fragment]#When your API’s target audience are external customers#
+
+include::end.adoc[]
+

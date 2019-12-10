@@ -1,0 +1,7 @@
+== Questions
+
+image::questions.png[canvas,size=contain]
+
+== Thanks
+
+Source code and slide can be found on https://github.com/Zomzog/contract-first

@@ -19,3 +19,4 @@ slides/build/
 # Maven
 log/
 target/
+*.html
