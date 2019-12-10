@@ -11,7 +11,7 @@ function addRevealJsDependencies(cb) {
 }
 
 function addNoJekyllForGithub(cb) {
-    src('src/**/*.nojekyll')
+    src('.nojekyll')
         .pipe(dest('build/dist'))
     cb();
 }
