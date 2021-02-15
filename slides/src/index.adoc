@@ -3,7 +3,7 @@
 :revealjs_progress: true
 :revealjs_slideNumber: true
 :revealjs_history: true
-:revealjs_showNotes: true
+:revealjs_showNotes: false
 :imagesdir: images
 :customcss: css/custom.css
 
