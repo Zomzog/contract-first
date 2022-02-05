@@ -8,7 +8,7 @@ body:after {
   background: url(../images/logo.svg);
   background-size: 6em;
   background-repeat: no-repeat;
-  background-position: 3% 96%; 
+  background-position: 3% 96%;
 }
 
 .reveal section img {
@@ -22,7 +22,7 @@ body:after {
     padding: 20px;
     overflow: hidden;
   }
-  
+
   .cross:before, .cross:after {
     position: absolute;
     content: '';
@@ -38,9 +38,9 @@ body:after {
     bottom: 0;
     margin: auto;
   }
-  
+
   .cross:after {
-    -webkit-transform: rotate(45deg);  
+    -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
   }
   .nocross {
@@ -48,7 +48,7 @@ body:after {
     padding: 20px;
     overflow: hidden;
   }
-  
+
   .nocross:before, .nocross:after {
     position: absolute;
     content: '';
@@ -64,8 +64,31 @@ body:after {
     bottom: 0;
     margin: auto;
   }
-  
+
   .nocross:after {
-    -webkit-transform: rotate(45deg);  
+    -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
   }
+
+.hideCode {
+  opacity: 0;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.small p, .small li, p.small, div.small, span.small, .small code, .TABLE.small, .small TH {
+  font-size: 94% !important;
+}
+.x-small p, .x-small li, p.x-small, div.x-small, span.x-small, .x-small code, TABLE.x-small, .x-small TH {
+  font-size: 86% !important;
+}
+
+
+.large p, .large li, p.large, div.large, span.large, .large code, .TABLE.large, .large TH {
+  font-size: 200% !important;
+}
+.x-large p, .x-large li, p.x-large, div.x-large, span.x-large, .x-large code, TABLE.x-large, .x-large TH {
+  font-size: 150% !important;
+}

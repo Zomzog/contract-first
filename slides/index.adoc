@@ -7,21 +7,37 @@
 :imagesdir: images
 :customcss: css/custom.css
 
-= Contract-first REST API 
+= Contract-first REST API
 
-== Heart of the application
+[.columns]
+== Me
+
+[.column]
+--
+image:bigM.png[]
+--
+[.column.is-three-quarters]
+--
+image:twitter.png[twitter, width=50] twitter.com/Zomzog
+
+image:github.png[github, width=50] github.com/Zomzog
+
+image:logo.svg[blog, width=50] Zomzog.fr
+--
+
+== A Small Application
 
 [fragment]#Frontend#
 
-[fragment]#APIs#
+[fragment]#Backend's APIs#
+
+[fragment]#Storage#
 
 [NOTE.speaker]
 --
-Il y a deux choses importantes pour une application
+Si on découpe une application, on trouvera en générale ces trois couches
 
-La UI quand il y en a une.
-
-Les API qui sont la UI des dev backend.
+Je parles ici d'une petite applicaton, dans la vrai vie on se retrouve souvent avec beaucoup de backends qui communiquent aussi entre eux.
 
 Les deux representent la UX de notre produit et doivent etre au coeur de toute notre attention.
 --
@@ -29,6 +45,8 @@ Les deux representent la UX de notre produit et doivent etre au coeur de toute n
 == Code-first
 
 [fragment]#Backend team code something#
+
+[fragment]#Hack API to responds to frontend needs#
 
 [fragment]#Generate documentation at runtime#
 
@@ -38,7 +56,7 @@ Les deux representent la UX de notre produit et doivent etre au coeur de toute n
 --
 Generation d'un swagger
 
-C'est l'approche classique qui marche tres bien a petite echelle 
+C'est l'approche classique qui marche tres bien a petite echelle
 (quand producteur et consommateur de l'api sont les meme)
 
 API souvent va transpirer les choix technos et souvent la base de donnee
@@ -46,16 +64,14 @@ API souvent va transpirer les choix technos et souvent la base de donnee
 
 == What does API-First mean?
 
-[quote, Restlet]
+[quote, Restlet, step=1]
 ____
 API-first software development refers to a set of practices that formally recognize APIs as a first-class artefact of software development, and emphasize their strategic and architectural importance.
 ____
 
 [NOTE.speaker]
 --
-J'ai trouvé ca pendant mes recherches.
 
-C'est ca l'idée l'important d'un point de vu strategie/business est plus sur l'api fournis que son implementation
 --
 
 == Contract first
@@ -70,7 +86,7 @@ C'est ca l'idée l'important d'un point de vu strategie/business est plus sur l'
 --
 Dans notre cas on va s'interesser aux contrats openApi
 
-On est sur que les structures echangés sont les memes, 
+On est sur que les structures echangés sont les memes,
 memes sur les petits details (ex id long ou string?)
 --
 
@@ -224,7 +240,7 @@ On peut aller jusqu'a la doc
 == Just a demo
 
 * Plugin gradle and SBT (test)
-* Java, Scala, Kotlin♥, Go...  
+* Java, Scala, Kotlin♥, Go...
 * Springboot, Ktor, Resttemplate..
 
 == Generated DTO vs Domain
