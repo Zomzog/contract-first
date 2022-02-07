@@ -44,7 +44,7 @@ function copyAdoc(cb) {
 }
 
 function copyStatics(cb) {
-  src('slides/**/*.{svg,png,jpg,jpeg,gif,css,js,mp4}')
+  src('slides/**/*.{svg,png,jpg,jpeg,gif,css,js}')
     .pipe(dest('build/dist'))
     cb();
 }
@@ -59,7 +59,7 @@ function copyProvidedHtml(cb) {
     src('slides/html/*.html')
       .pipe(dest('build/dist'))
       cb();
-  }
+  }  
 
 
 const build = series(parallel(copyProvidedHtml, copyAdoc, copyStatics, copyPlugins), convert)

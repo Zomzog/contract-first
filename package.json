@@ -1,7 +1,7 @@
 {
-  "name": "tsd",
+  "name": "contract-first",
   "version": "1.0.0",
-  "description": "Tsd technical slides",
+  "description": "Contract-first technical slides",
   "main": "index.js",
   "scripts": {
     "convert": "node asciidoctor-revealjs.js",

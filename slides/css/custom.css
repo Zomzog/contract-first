@@ -87,8 +87,12 @@ body:after {
 
 
 .large p, .large li, p.large, div.large, span.large, .large code, .TABLE.large, .large TH {
-  font-size: 200% !important;
+  font-size: 150% !important;
 }
 .x-large p, .x-large li, p.x-large, div.x-large, span.x-large, .x-large code, TABLE.x-large, .x-large TH {
-  font-size: 150% !important;
+  font-size: 200% !important;
+}
+
+.line-through {
+  text-decoration: line-through;
 }

@@ -6,11 +6,12 @@
 :revealjs_showNotes: false
 :imagesdir: images
 :customcss: css/custom.css
+:docinfo: private
 
 = Contract-first REST API
 
 [.columns]
-== Me
+== Thibault Duperron
 
 [.column]
 --
@@ -18,14 +19,22 @@ image:bigM.png[]
 --
 [.column.is-three-quarters]
 --
-image:twitter.png[twitter, width=50] twitter.com/Zomzog
+Backend developper Scala, Java... 
+
+Ex full-stack developper
 
 image:github.png[github, width=50] github.com/Zomzog
 
-image:logo.svg[blog, width=50] Zomzog.fr
+image:logo.svg[blog, width=50] zomzog.fr
 --
 
-== A Small Application
+[NOTE.speaker]
+--
+Developper backend ancien fullstack.
+Je vais vous parler justement d'un impact de ne plus etre full stack
+--
+
+== From small applications
 
 [fragment]#Frontend#
 
@@ -37,14 +46,12 @@ image:logo.svg[blog, width=50] Zomzog.fr
 --
 Si on découpe une application, on trouvera en générale ces trois couches
 
-Je parles ici d'une petite applicaton, dans la vrai vie on se retrouve souvent avec beaucoup de backends qui communiquent aussi entre eux.
-
-Les deux representent la UX de notre produit et doivent etre au coeur de toute notre attention.
+Souvent quand on est full stack on fait toute les couches
 --
 
 == Code-first
 
-[fragment]#Backend team code something#
+[fragment]#Code something in the backend#
 
 [fragment]#Hack API to responds to frontend needs#
 
@@ -54,15 +61,12 @@ Les deux representent la UX de notre produit et doivent etre au coeur de toute n
 
 [NOTE.speaker]
 --
-Generation d'un swagger
+C'est l'approche classique qui marche bien quand on est full-stack ou une petite équipe.
 
-C'est l'approche classique qui marche tres bien a petite echelle
-(quand producteur et consommateur de l'api sont les meme)
-
-API souvent va transpirer les choix technos et souvent la base de donnee
+On génère la doc "histoire de" souvent invalide
 --
 
-== What does API-First mean?
+== API-First?
 
 [quote, Restlet, step=1]
 ____
@@ -71,7 +75,9 @@ ____
 
 [NOTE.speaker]
 --
+Quand on devient pur backend, l'important c'est l'API.
 
+On va commencer à avoir une approche API-first car c'est cela qu'on expose aux autres.
 --
 
 == Contract first
@@ -90,9 +96,116 @@ On est sur que les structures echangés sont les memes,
 memes sur les petits details (ex id long ou string?)
 --
 
-== Choose your weapon
+== OAS3
 
-image::editors.png[]
+[source, yaml]
+----
+openapi: 3.0.0
+info:
+  title: Ponies
+  version: '1.0'
+  description: Pony API
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /ponies:
+    get:
+      summary: List ponies
+      operationId: get-ponies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pony'
+      tags:
+        - Ponies
+components:
+  schemas:
+    Pony:
+      title: Pony
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given pony.
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/PonyType'
+      required:
+        - id
+        - name
+        - type
+    PonyType:
+      type: string
+      title: PonyType
+      enum:
+        - Earth
+        - Unicorns
+        - Pegasi
+----
+
+== OAS3
+
+[source, yaml]
+----
+openapi: 3.0.0
+info:
+  title: Ponies
+  version: '1.0'
+  description: Pony API
+servers:
+  - url: 'http://localhost:8080'
+----
+
+== OAS3
+
+[source, yaml]
+----
+paths:
+  /ponies:
+    get:
+      summary: List ponies
+      operationId: get-ponies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pony'
+----
+
+
+== OAS3
+
+[source, yaml]
+----
+components:
+  schemas:
+    Pony:
+      title: Pony
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/PonyType'
+      required:
+        - name
+----
+
+== My little contract
+
+image::API.png[]
 
 [NOTE.speaker]
 --
@@ -100,50 +213,43 @@ Bien sur seul l'un d'eux marche vraiment,
 les autres ne sont la que pour montrer qu'il y a un vrai marché qui se monte sur le sujet ces dernieres annees
 --
 
+== Contract creation
 
-== My little contract
+image::editors.png[]
 
-[source, yaml]
-----
-openapi: 3.0.1
-info:
-  contact: {}
-  description: Friendship is magic
-  title: My Little Pony
-  version: 1.0.0
-servers:
-- url: /
-paths:
-  /ponies:
-    get:
-      operationId: list
-      parameters:
-      - example: Rainbow Dash
-        explode: true
-        in: query
-        name: name
-        required: false
-        schema:
-          type: string
-        style: form
-      responses:
-----
+[NOTE.speaker]
+--
+On prend son editeur favoris
+--
+
+
 [transition=fade]
 == And now?
 
 image::travolta.jpg[canvas,size=contain]
 [NOTE.speaker]
 --
+On est contract first, enfin je crois.
 Il faut quelque chose pour faire la glue entre api et code.
 --
 
-== DRY - Generate
+[.columns]
+== OpenApi Generator
 
+[.column]
+--
 image::openapi-generator.svg[width=30%]
 
-image::fork.png[]
+Fork of swagger-codegen (2018)
 
-image::stats.png[]
+--
+
+[.column]
+--
+Multi generators
+
+image::clients.png[]
+--
 
 [NOTE.speaker]
 --
@@ -158,16 +264,49 @@ Generate everything (model, api client, server...) in many language and library
 image::keyboard.jpg[width=50%]
 
 === First generation
-`npx openapi-generator generate -i .\api.yml -g spring -o ./spring`
+
+[source, bash]
+----
+npx @openapitools/openapi-generator-cli generate \
+                     -i api.yml \
+                     -g spring \
+                     -o ./spring
+----
 
 [NOTE.speaker]
 --
 C'est beau on dirait du jhypster ... mais c'est oneshot
 --
 
+=== First result
+
+[source, bash]
+----
+curl -XGET -s localhost:8080/ponies | jq
+----
+
+[source, json]
+----
+{
+  "name": "name",
+  "id": 0,
+  "friends": [
+    null,
+    null
+  ]
+}
+----
+
 === Api first generation
 
-`npx openapi-generator generate -i .\api.yml -g spring -p apiFirst=true -o ./spring-api`
+[source, bash]
+----
+npx @openapitools/openapi-generator-cli generate \
+                     -i api.yml \
+                     -g spring \
+                     -o ./spring-api \
+                     -p apiFirst=true
+----
 
 [NOTE.speaker]
 --
@@ -181,7 +320,7 @@ API generé a chaque build on change le fichier ca change le model (et ca compil
 <plugin>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
-    <version>4.2.2</version>
+    <version>5.4.0</version>
     <executions>
         <execution>
             <goals>
@@ -210,16 +349,24 @@ Intercface only + delegatePattern
 
 === Client
 
-`npx openapi-generator generate -i .\api.yml -g java --library=feign -o ./client`
 
-[source, xml, numbered]
+[source, bash]
 ----
-DefaultApi apiClient = new ApiClient()
-        .setBasePath("http://localhost:8080")
-        .buildClient(DefaultApi.class);
+npx @openapitools/openapi-generator-cli generate \
+                     -i api.yml \
+                     -g java \
+                     -o ./client \
+                     --library=feign
+----
 
-Pony pony = apiClient.getOne("id");
-System.out.println("pony = " + pony);
+[source, java]
+----
+PoniesApi client = new ApiClient()
+        .setBasePath("http://localhost:8080")
+        .buildClient(PoniesApi.class);
+
+client.getPonies()
+        .forEach(it -> System.out.println("it = " + it));
 ----
 
 [NOTE.speaker]
@@ -228,32 +375,76 @@ Choix arbitraire de feign
 --
 
 
-=== Doc ?
+== Just a demo
 
-`npx openapi-generator generate -i .\api.yml -g asciidoc -o ./asciidoc`
+[fragment]#Maven, Gradle, sbt...#
+
+[fragment]#Java, Scala, Kotlin♥, Go...#
+
+[fragment]#Springboot, Ktor, Play, Quarkus...#
 
 [NOTE.speaker]
 --
-On peut aller jusqu'a la doc
+Non limité a maven
+Non limité a java
+Non limité a spring
 --
 
-== Just a demo
-
-* Plugin gradle and SBT (test)
-* Java, Scala, Kotlin♥, Go...
-* Springboot, Ktor, Resttemplate..
-
+[transition=fade]
 == Generated DTO vs Domain
 
 [fragment]#Skip model generation and code them#
 
-== Generated DTO vs Domain
-
-[fragment]#Use mapper like mapstruct#
+[hidden]#Pony#
 
 [NOTE.speaker]
 --
+Solution simple
+--
+
+[transition=fade]
+== Generated DTO vs Domain
+
+[.line-through]#Skip model generation and code them#
+
+Use mapper like mapstruct
+
+[NOTE.speaker]
+--
+Ca permet de ne récupérer que les parties qui nous interessent
+
 Plusieurs versions de l'api peuvent cohabiter (test de non reg, migration progressive a une v2)
+--
+
+== API version handling
+
+[fragment]#Generate client version is easy#
+
+[fragment]#API upgrade impacts = compile issue#
+
+
+[NOTE.speaker]
+--
+Il est facile de maintenir plusieurs version d'un client pour des tests d'integration.
+
+Les breaking changes se voient a la compilation
+--
+
+== Next steps
+
+[fragment]#Custom generator template#
+
+[fragment]#Generate documentation#
+
+[fragment]#Generate mock services#
+
+[NOTE.speaker]
+--
+Parfois le template ne correspond pas, ou on a de l'existent, ils sont extensibles
+
+On peut tout générer meme de la documentation d'api
+
+Generation de mocks très rapide
 --
 
 == Do I need that?
