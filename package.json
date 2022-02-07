@@ -1,7 +1,7 @@
 {
   "name": "contract-first",
   "version": "1.0.0",
-  "description": "Contract First slides",
+  "description": "Contract-first technical slides",
   "main": "index.js",
   "scripts": {
     "convert": "node asciidoctor-revealjs.js",
@@ -19,8 +19,11 @@
   },
   "homepage": "https://github.com/zomzog/contract-first#readme",
   "dependencies": {
-    "asciidoctor-reveal.js": "^2.0.0",
-    "map-stream": "0.0.7"
+    "@asciidoctor/reveal.js": "^5.0.0-rc.1",
+    "asciidoctor": "^2.2.5",
+    "del": "^6.0.0",
+    "map-stream": "0.0.7",
+    "reveal.js-menu": "^2.1.0"
   },
   "devDependencies": {
     "browser-sync": "^2.26.7",

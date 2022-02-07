@@ -1,9 +1,10 @@
+
 'use strict';
 const map = require('map-stream');
 
 // Load asciidoctor.js and asciidoctor-reveal.js
-const  asciidoctor = require('asciidoctor.js')();
-var asciidoctorRevealjs = require('asciidoctor-reveal.js');
+var asciidoctor = require('@asciidoctor/core')()
+var asciidoctorRevealjs = require('@asciidoctor/reveal.js')
 asciidoctorRevealjs.register()
 
 /**
