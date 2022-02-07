@@ -19,13 +19,9 @@ image:bigM.png[]
 --
 [.column.is-three-quarters]
 --
-Backend developper Scala, Java... 
-
 Ex full-stack developper
 
-image:github.png[github, width=50] github.com/Zomzog
-
-image:logo.svg[blog, width=50] zomzog.fr
+Backend developper Scala, Java... 
 --
 
 [NOTE.speaker]
@@ -149,6 +145,14 @@ components:
         - Pegasi
 ----
 
+
+[NOTE.speaker]
+--
+Un contrat OAS3 en yaml c'est ca.
+
+Voyons ca en détail.
+--
+
 == OAS3
 
 [source, yaml]
@@ -162,6 +166,10 @@ servers:
   - url: 'http://localhost:8080'
 ----
 
+[NOTE.speaker]
+--
+On y définie des metadata, dont sa version
+--
 == OAS3
 
 [source, yaml]
@@ -182,6 +190,10 @@ paths:
                   $ref: '#/components/schemas/Pony'
 ----
 
+[NOTE.speaker]
+--
+Les differents endpoints avec les parametres et réponses suivant les codes http
+--
 
 == OAS3
 
@@ -203,6 +215,11 @@ components:
         - name
 ----
 
+[NOTE.speaker]
+--
+Les objest échangés, on peut aller assez loins dedans avec de l'héritage
+--
+
 == My little contract
 
 image::API.png[]
@@ -221,7 +238,6 @@ image::editors.png[]
 --
 On prend son editeur favoris
 --
-
 
 [transition=fade]
 == And now?
