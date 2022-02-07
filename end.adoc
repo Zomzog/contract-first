@@ -1,0 +1,24 @@
+== Questions
+
+image::questions.png[canvas,size=contain]
+
+[%notitle]
+[.columns]
+== Thanks
+
+[.column]
+--
+image:bigM.png[]
+--
+[.column.is-three-quarters]
+--
+[.large]#println("Thank you!")#
+
+Slides
+
+link:https://zomzog.fr/contract-first[zomzog.fr/contract-first]
+
+Source code
+
+link:https://github.com/zomzog/contract-first[github.com/zomzog/contract-first]
+--

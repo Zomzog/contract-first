@@ -1,0 +1,47 @@
+
+== Just a demo
+
+* Plugin gradle and SBT (test)
+* Scala, Java, Kotlin♥, Go...  
+
+
+== Generated DTO vs Domain
+Ca a un cout mais c'est pas si mal car on peut generer facilement avoir plusieurs version du client généré c'est valide aussi pour le back O M F G ! 
+
+Maintenir facilement api v1 et v2 avec le meme code apres ! 
+
+Penser a utiliser des mapper type mapstruct
+
+== Generer de la doc ?
+
+== Example de generateur custom ?
+
+== Quand? 
+
+Mission Critical APIs.
+When your API’s target audience are external customers
+
+== To Contract-First and beyond  !
+
+image::toInfinity.gif[]
+
+== Fix API specification
+
+Springfox is less than perfect
+
+[.red]
+[fragment]#Spring Pageable#
+
+[.red]
+[fragment]#Generics#
+
+[.red]
+[fragment]#Nicknames#
+
+== One step at a time
+
+[fragment]#Generate DTO and map them to your domain#
+
+[fragment]#Generate and replace API#
+
+== Demo 
