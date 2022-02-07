@@ -414,10 +414,8 @@ ul.byline li + li {
   margin-top: 0.25em;
 }
 </style><link rel="stylesheet" href="css/custom.css"></head><body><div class="reveal"><div class="slides"><section class="title" data-state="title"><h1>Contract-first REST API</h1></section><section id="_thibault_duperron" class="columns"><h2>Thibault Duperron</h2><div class="slide-content"><div class="openblock column"><div class="content"><div class="paragraph"><p><span class="image"><img src="images/bigM.png" alt="bigM"></span></p></div></div></div>
-<div class="openblock column is-three-quarters"><div class="content"><div class="paragraph"><p>Backend developper Scala, Java&#8230;&#8203;</p></div>
-<div class="paragraph"><p>Ex full-stack developper</p></div>
-<div class="paragraph"><p><span class="image"><img src="images/github.png" alt="github" width="50"></span> github.com/Zomzog</p></div>
-<div class="paragraph"><p><span class="image"><img src="images/logo.svg" alt="blog" width="50"></span> zomzog.fr</p></div></div></div>
+<div class="openblock column is-three-quarters"><div class="content"><div class="paragraph"><p>Ex full-stack developper</p></div>
+<div class="paragraph"><p>Backend developper Scala, Java&#8230;&#8203;</p></div></div></div>
 <aside class="notes"><div class="paragraph"><p>Developper backend ancien fullstack.
 Je vais vous parler justement d&#8217;un impact de ne plus etre full stack</p></div></aside></div></section>
 <section id="_from_small_applications"><h2>From small applications</h2><div class="slide-content"><div class="paragraph"><p><span class="fragment">Frontend</span></p></div>
@@ -486,14 +484,17 @@ components:
       enum:
         - Earth
         - Unicorns
-        - Pegasi</code></pre></div></div></div></section>
+        - Pegasi</code></pre></div></div>
+<aside class="notes"><div class="paragraph"><p>Un contrat OAS3 en yaml c&#8217;est ca.</p></div>
+<div class="paragraph"><p>Voyons ca en détail.</p></div></aside></div></section>
 <section id="_oas3_2"><h2>OAS3</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlightjs highlight"><code class="language-yaml hljs" data-noescape="true" data-lang="yaml">openapi: 3.0.0
 info:
   title: Ponies
   version: '1.0'
   description: Pony API
 servers:
-  - url: 'http://localhost:8080'</code></pre></div></div></div></section>
+  - url: 'http://localhost:8080'</code></pre></div></div>
+<aside class="notes"><div class="paragraph"><p>On y définie des metadata, dont sa version</p></div></aside></div></section>
 <section id="_oas3_3"><h2>OAS3</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlightjs highlight"><code class="language-yaml hljs" data-noescape="true" data-lang="yaml">paths:
   /ponies:
     get:
@@ -507,7 +508,8 @@ servers:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pony'</code></pre></div></div></div></section>
+                  $ref: '#/components/schemas/Pony'</code></pre></div></div>
+<aside class="notes"><div class="paragraph"><p>Les differents endpoints avec les parametres et réponses suivant les codes http</p></div></aside></div></section>
 <section id="_oas3_4"><h2>OAS3</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre class="highlightjs highlight"><code class="language-yaml hljs" data-noescape="true" data-lang="yaml">components:
   schemas:
     Pony:
@@ -521,7 +523,8 @@ servers:
         type:
           $ref: '#/components/schemas/PonyType'
       required:
-        - name</code></pre></div></div></div></section>
+        - name</code></pre></div></div>
+<aside class="notes"><div class="paragraph"><p>Les objest échangés, on peut aller assez loins dedans avec de l&#8217;héritage</p></div></aside></div></section>
 <section id="_my_little_contract"><h2>My little contract</h2><div class="slide-content"><div class="imageblock"><img src="images/API.png" alt="API"></div>
 <aside class="notes"><div class="paragraph"><p>Bien sur seul l&#8217;un d&#8217;eux marche vraiment,
 les autres ne sont la que pour montrer qu&#8217;il y a un vrai marché qui se monte sur le sujet ces dernieres annees</p></div></aside></div></section>
