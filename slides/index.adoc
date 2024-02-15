@@ -21,7 +21,7 @@ image:bigM.png[]
 --
 Ex full-stack developper
 
-Backend developper Scala, Java... 
+Backend developper Kotlin, Scala, Java...
 --
 
 [NOTE.speaker]
