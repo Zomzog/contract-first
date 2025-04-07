@@ -185,15 +185,15 @@ public class MyLittleGeneratorGenerator extends AbstractJavaCodegen implements C
         return input.replace("\"", "\\\"");
     }
 
-    @Override
-    public CodegenModel fromModel(String name, Schema model) {
-        CodegenModel codegenModel = super.fromModel(name, model);
-        if(getAnnotationLibrary() != AnnotationLibrary.SWAGGER1) {
-            // remove swagger imports
-            codegenModel.imports.remove("ApiModelProperty");
-            codegenModel.imports.remove("ApiModel");
-        }
-
-        return codegenModel;
-    }
+//    @Override
+//    public CodegenModel fromModel(String name, Schema model) {
+//        CodegenModel codegenModel = super.fromModel(name, model);
+//        if(getAnnotationLibrary() != AnnotationLibrary.SWAGGER1) {
+//            // remove swagger imports
+//            codegenModel.imports.remove("ApiModelProperty");
+//            codegenModel.imports.remove("ApiModel");
+//        }
+//
+//        return codegenModel;
+//    }
 }

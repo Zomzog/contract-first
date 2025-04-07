@@ -37,6 +37,12 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.8.6</version>
         </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.14</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -44,7 +50,6 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>${openapi-generator-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>server</id>
@@ -66,7 +71,6 @@
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <useTags>true</useTags>
                                 <delegatePattern>true</delegatePattern>
-                                <!--                                <documentationProvider>none</documentationProvider>-->
                                 <useSwaggerUI>false</useSwaggerUI>
                             </configOptions>
                         </configuration>
@@ -88,11 +92,8 @@
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <configOptions>
                                 <useJakartaEe>true</useJakartaEe>
-                                <!--                                <interfaceOnly>true</interfaceOnly>-->
-                                <!--                                <useSpringBoot3>true</useSpringBoot3>-->
                                 <useTags>true</useTags>
-                                <!--                                <delegatePattern>true</delegatePattern>-->
-                                <!--                                <useSwaggerUI>false</useSwaggerUI>-->
+                                <useSwaggerUI>false</useSwaggerUI>
                             </configOptions>
                         </configuration>
                     </execution>
