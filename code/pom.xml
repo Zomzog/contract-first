@@ -16,6 +16,8 @@
     <modules>
         <module>code-first</module>
         <module>contract-first</module>
+        <module>spring</module>
+        <module>contract-first-demo</module>
     </modules>
     <properties>
         <java.version>21</java.version>
