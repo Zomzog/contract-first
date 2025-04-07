@@ -1,0 +1,137 @@
+package {{package}};
+
+import {{invokerPackage}}.WebClientProperties;
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+
+{{/useBeanValidation}}
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.server.ResponseStatusException;
+import reactor.util.retry.Retry;
+import reactor.util.retry.RetryBackoffSpec;
+
+import java.time.Duration;
+import java.util.concurrent.TimeoutException;
+import java.util.function.Function;
+
+{{>generatedAnnotation}}
+{{#operations}}
+public class {{classname}} {
+
+    Logger log = LoggerFactory.getLogger({{classname}}.class);
+
+    private final long maxAttempts;
+    private final Duration backoff;
+    private final WebClient client;
+
+    public {{classname}}(WebClientProperties properties, WebClient.Builder webClientBuilder) {
+        this.maxAttempts = properties.getMaxAttempts();
+        this.backoff = properties.getBackoff();
+        this.client = webClientBuilder
+                .clone()
+                .baseUrl(properties.getBasePath())
+                .defaultHeaders( httpHeaders -> {
+                    httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+                    if (properties.getApiKey() != null) {
+                        httpHeaders.add("x-api-key", properties.getApiKey());
+                    }
+                })
+                .build();
+    }
+
+    {{#operation}}
+    public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#allParams}}{{#isFile}}{{#useAbstractionForFiles}}{{#collectionFormat}}java.util.Collection<org.springframework.core.io.AbstractResource>{{/collectionFormat}}{{^collectionFormat}}org.springframework.core.io.AbstractResource{{/collectionFormat}}{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{dataType}}}{{/useAbstractionForFiles}}{{/isFile}}{{^isFile}}{{{dataType}}}{{/isFile}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+        {{#returnType}}return {{/returnType}}client.{{#lambda.lowercase}}{{{httpMethod}}}{{/lambda.lowercase}}()
+                .uri(builder -> builder
+                    .path("{{path}}")
+                    {{#queryParams}}
+                    .queryParam("{{paramName}}", {{paramName}})
+                    {{/queryParams}}
+                    .build({{#pathParams}}{{paramName}}{{^-last}}, {{/-last}}{{/pathParams}})
+                )
+        {{#bodyParam}}
+                .bodyValue({{paramName}})
+        {{/bodyParam}}
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, raiseWebClientException("4xx error"))
+                .onStatus(HttpStatusCode::is5xxServerError, raiseWebClientException("5xx error"))
+        {{#returnType}}
+        {{#isArray}}
+                .bodyToFlux({{returnBaseType}}.class)
+        {{/isArray}}
+        {{^isArray}}
+                .bodyToMono({{returnType}}.class)
+        {{/isArray}}
+        {{/returnType}}
+        {{^returnType}}
+                .toBodilessEntity()
+        {{/returnType}}
+                .retryWhen(retryRules())
+        {{#isArray}}
+                .collectList()
+        {{/isArray}}
+                .block();
+    }
+    {{/operation}}
+
+    /**
+     * This requires the server.error.include-message property to be set.
+     */
+    public Function<ClientResponse, Mono<? extends Throwable>> raiseWebClientException(String message, Object... objects) {
+        return clientResponse -> clientResponse
+                .bodyToMono(String.class)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(clientResponse.statusCode(), MessageFormatter.arrayFormat(message, objects).getMessage() + " HttpStatus = " + clientResponse.statusCode())))
+                .doOnError(throwable -> log.error(message + " " + clientResponse.statusCode(), objects))
+                .doOnSuccess(clientMessage -> log.error(clientMessage != null ? message + " " + clientResponse.statusCode() + " ###### Message from client ###### " + clientMessage : message + " " + clientResponse.statusCode(), objects))
+                .flatMap(clientMessage -> Mono.error(
+                        new ResponseStatusException(clientResponse.statusCode(), clientMessage != null ? MessageFormatter.arrayFormat(message, objects).getMessage() + " HttpStatus= " + clientResponse.statusCode() + " ###### Message from client ###### " + clientMessage : message)
+                ));
+    }
+
+    public RetryBackoffSpec retryRules() {
+        return Retry.backoff(maxAttempts, backoff)
+                    .filter(t -> t instanceof ResponseStatusException && ((ResponseStatusException) t).getStatusCode()
+                                                                                                      .is5xxServerError())
+                    .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) -> retrySignal.failure());
+    }
+
+    public RetryBackoffSpec retryRulesTimeout() {
+        return Retry.backoff(maxAttempts, Duration.ofSeconds(0))
+                    .filter(TimeoutException.class::isInstance)
+                    .onRetryExhaustedThrow((retryBackoffSpec, retrySignal) -> retrySignal.failure())
+                ;
+    }
+}
+{{/operations}}

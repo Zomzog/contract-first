@@ -10,6 +10,8 @@ paths:
     get:
       summary: "List"
       operationId: "list"
+      tags:
+        - "ponies"
       parameters:
         - name: "name"
           in: "query"
@@ -31,6 +33,8 @@ paths:
     post:
       summary: "Create"
       operationId: "create"
+      tags:
+        - "ponies"
       requestBody:
         content:
           application/json:
@@ -49,6 +53,8 @@ paths:
     get:
       summary: "Get one"
       operationId: "getOne"
+      tags:
+        - "ponies"
       responses:
         200:
           description: "Status 200"
@@ -59,6 +65,8 @@ paths:
     put:
       summary: "Update"
       operationId: "update"
+      tags:
+        - "ponies"
       requestBody:
         content:
           application/json:
@@ -74,6 +82,8 @@ paths:
     delete:
       summary: "Delete one"
       operationId: "deleteOne"
+      tags:
+        - "ponies"
       responses:
         200:
           description: "Status 200"

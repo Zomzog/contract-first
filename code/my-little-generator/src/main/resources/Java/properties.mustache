@@ -1,0 +1,45 @@
+package {{invokerPackage}};
+
+import java.time.Duration;
+
+public class WebClientProperties {
+   private final String basePath;
+   private final String apiKey;
+   private final Long maxAttempts;
+   private final Duration backoff;
+   private final Boolean oauth2Enabled;
+   private final Duration timeout;
+
+    public WebClientProperties(String basePath, String apiKey, Long maxAttempts, Duration backoff, Boolean oauth2Enabled, Duration timeout) {
+        this.basePath = basePath;
+        this.apiKey = apiKey;
+        this.maxAttempts = maxAttempts;
+        this.backoff = backoff;
+        this.oauth2Enabled = oauth2Enabled;
+        this.timeout = timeout;
+    }
+
+    public Duration getTimeout() {
+        return timeout;
+    }
+
+    public Boolean getOauth2Enabled() {
+        return oauth2Enabled;
+    }
+
+    public Duration getBackoff() {
+        return backoff;
+    }
+
+    public Long getMaxAttempts() {
+        return maxAttempts;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+}
