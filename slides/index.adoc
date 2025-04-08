@@ -44,6 +44,8 @@ avec une petite équipe.
 Souvent on va avoir des gens full stack et se mettre d'accord entre front et back, c'est ça #next
 --
 
+== External or bigger team
+
 == We need a contract
 
 image:wsdl.png[width=50%]
@@ -54,7 +56,7 @@ image:openapi.png[width=50%]
 
 == Code-first
 
-image:codefirst.png[width=50%]
+image:boring.gif[width=50%]
 
 [NOTE.speaker]
 --
@@ -289,27 +291,34 @@ API generé a chaque build on change le fichier ca change le model (et ca compil
 [source, xml, numbered]
 ----
 <plugin>
-    <groupId>org.openapitools</groupId>
-    <artifactId>openapi-generator-maven-plugin</artifactId>
-    <version>5.4.0</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>generate</goal>
-            </goals>
-            <configuration>
-                <inputSpec>src/main/resources/openapi.yaml</inputSpec>
-                <generatorName>spring</generatorName>
-                <apiPackage>org.openapitools.api</apiPackage>
-                <modelPackage>org.openapitools.model</modelPackage>
-                <generateSupportingFiles>false</generateSupportingFiles>
-                <configOptions>
-                    <interfaceOnly>true</interfaceOnly>
-                    <delegatePattern>true</delegatePattern>
-                </configOptions>
-            </configuration>
-        </execution>
-    </executions>
+  <groupId>org.openapitools</groupId>
+  <artifactId>openapi-generator-maven-plugin</artifactId>
+  <executions>
+    <execution>
+      <id>server</id>
+      <goals>
+          <goal>generate</goal>
+      </goals>
+      <configuration>
+        <inputSpec>${project.basedir}/src/main/resources/api.yml</inputSpec>
+        <generatorName>spring</generatorName>
+        <apiPackage>bzh.zomzog.prez.contract_first.demo.controller.api</apiPackage>
+        <modelPackage>bzh.zomzog.prez.contract_first.demo.controller.dto</modelPackage>
+        <generateSupportingFiles>true</generateSupportingFiles>
+        <modelNameSuffix>Dto</modelNameSuffix>
+        <schemaMappings>
+          <schemaMapping>Pageable=org.springframework.data.domain.Pageable</schemaMapping>
+        </schemaMappings>
+        <configOptions>
+          <interfaceOnly>true</interfaceOnly>
+          <useSpringBoot3>true</useSpringBoot3>
+          <useTags>true</useTags>
+          <delegatePattern>true</delegatePattern>
+          <useSwaggerUI>false</useSwaggerUI>
+        </configOptions>
+      </configuration>
+    </execution>
+  </executions>
 </plugin>
 ----
 
@@ -321,38 +330,73 @@ Intercface only + delegatePattern
 === Client
 
 
-[source, bash]
+[source, xml]
 ----
-npx @openapitools/openapi-generator-cli generate \
-                     -i api.yml \
-                     -g java \
-                     -o ./client \
-                     --library=feign
+<execution>
+  <id>client</id>
+  <goals>
+    <goal>generate</goal>
+  </goals>
+  <configuration>
+    <inputSpec>${project.basedir}/src/main/resources/api.yml</inputSpec>
+    <generatorName>java</generatorName>
+    <library>webclient</library>
+    <apiPackage>bzh.zomzog.prez.contract_first.demo.client</apiPackage>
+    <modelPackage>bzh.zomzog.prez.contract_first.demo.client.dto</modelPackage>
+    <generateSupportingFiles>true</generateSupportingFiles>
+    <generateApiTests>false</generateApiTests>
+    <generateModelTests>false</generateModelTests>
+    <modelNameSuffix>Dto</modelNameSuffix>
+    <configOptions>
+      <useJakartaEe>true</useJakartaEe>
+      <useTags>true</useTags>
+      <useSwaggerUI>false</useSwaggerUI>
+    </configOptions>
+  </configuration>
+</execution>
 ----
 
-[source, java]
+=== Custom generator
+
+[source,bash]
 ----
-PoniesApi client = new ApiClient()
-        .setBasePath("http://localhost:8080")
-        .buildClient(PoniesApi.class);
-
-client.getPonies()
-        .forEach(it -> System.out.println("it = " + it));
+npx @openapitools/openapi-generator-cli meta \
+    -o my-little-generator \
+    -n my-little-generator \
+    -p bzh.zomzog.prez.contract_first.mylittlegenerator
 ----
 
-[NOTE.speaker]
---
-Choix arbitraire de feign
---
+=== Custom generator
 
+extends AbstractJavaCodegen
+
+templateDir = "Java";
+
+rename template folder Java
+
+[source,java]
+----
+@Override
+public void processOpts() {
+  super.processOpts();
+  final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
+  supportingFiles.add(new SupportingFile("properties.mustache",
+                                         invokerFolder,
+                                         "WebClientProperties.java")
+  );
+}
+----
+
+XML:
+<generatorName>my-little-generator</generatorName>
 
 == Just a demo
 
-[fragment]#Maven, Gradle, sbt...#
+Maven, Gradle...
 
-[fragment]#Java, Scala, Kotlin♥, Go...#
+Java, Kotlin♥, Javascript, Go...
 
-[fragment]#Springboot, Ktor, Play, Quarkus...#
+Springboot, Ktor, Quarkus...
 
 [NOTE.speaker]
 --
@@ -361,5 +405,100 @@ Non limité a java
 Non limité a spring
 --
 
+== Next steps
 
-include::old.adoc[]
+== Clean OAS3
+
+[source,yaml]
+----
+components:
+  schemas:
+    Pony:
+      title: Pony
+      type: object
+      properties:
+        Name:
+          type: "string"
+          minLength: 1
+          maxLength: 100
+          example: "Big McIntosh"
+----
+
+== Clean OAS3
+
+[source,yaml]
+----
+components:
+  schemas:
+    Pony:
+      title: Pony
+      type: object
+      properties:
+        Name:
+          $ref: "#/components/schemas/Name"
+    Name:
+      type: "string"
+      minLength: 1
+      maxLength: 100
+      example: "Big McIntosh"
+----
+
+== Clean OAS3
+
+[source,yaml]
+----
+paths:
+  /ponies/{ponyName}:
+    parameters:
+      - $ref: "#/components/parameters/NameInPath"
+    get:
+      summary: "Get one"
+components:
+  parameters:
+    NameInPath:
+      name: ponyName
+      in: path
+      schema:
+        $ref: "#/components/schemas/Name"
+      required: true
+----
+
+[%notitle]
+== Clean OAS3
+
+[source,yaml,height=100%]
+----
+  /ponies:
+    post:
+      responses:
+        500:
+          $ref: "#/components/responses/500"
+components:
+  responses:
+    '500':
+      description: ! 
+        Internal server error, you can panic
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+----
+
+[NOTE.speaker]
+--
+On peut avoir une passion du yaml sans etre un ops
+--
+
+== Validating OAS3
+
+image:vacuum.png[]
+
+https://github.com/daveshanley/vacuum
+
+[%notitle]
+== Validating OAS3
+
+image:vacuum-report.png[canvas,size=contain]
+
+include::end.adoc[]
+
