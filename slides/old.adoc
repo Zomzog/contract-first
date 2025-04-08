@@ -1,0 +1,255 @@
+
+== API-First?
+
+[quote, Restlet, step=1]
+____
+API-first software development refers to a set of practices that formally recognize APIs as a first-class artefact of software development, and emphasize their strategic and architectural importance.
+____
+
+[NOTE.speaker]
+--
+Quand on devient pur backend, l'important c'est l'API.
+
+On va commencer à avoir une approche API-first car c'est cela qu'on expose aux autres.
+--
+
+== Contract first
+
+[fragment]#Start with a contract#
+
+[fragment]#Everyone can mock from it#
+
+[fragment]#Contract can easily be versioned#
+
+[NOTE.speaker]
+--
+Dans notre cas on va s'interesser aux contrats openApi
+
+On est sur que les structures echangés sont les memes,
+memes sur les petits details (ex id long ou string?)
+--
+
+== OAS3
+
+[source, yaml]
+----
+openapi: 3.0.0
+info:
+  title: Ponies
+  version: '1.0'
+  description: Pony API
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /ponies:
+    get:
+      summary: List ponies
+      operationId: get-ponies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pony'
+      tags:
+        - Ponies
+components:
+  schemas:
+    Pony:
+      title: Pony
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given pony.
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/PonyType'
+      required:
+        - id
+        - name
+        - type
+    PonyType:
+      type: string
+      title: PonyType
+      enum:
+        - Earth
+        - Unicorns
+        - Pegasi
+----
+
+
+[NOTE.speaker]
+--
+Un contrat OAS3 en yaml c'est ca.
+
+Voyons ca en détail.
+--
+
+== OAS3
+
+[source, yaml]
+----
+openapi: 3.0.0
+info:
+  title: Ponies
+  version: '1.0'
+  description: Pony API
+servers:
+  - url: 'http://localhost:8080'
+----
+
+[NOTE.speaker]
+--
+On y définie des metadata, dont sa version
+--
+== OAS3
+
+[source, yaml]
+----
+paths:
+  /ponies:
+    get:
+      summary: List ponies
+      operationId: get-ponies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pony'
+----
+
+[NOTE.speaker]
+--
+Les differents endpoints avec les parametres et réponses suivant les codes http
+--
+
+== OAS3
+
+[source, yaml]
+----
+components:
+  schemas:
+    Pony:
+      title: Pony
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/PonyType'
+      required:
+        - name
+----
+
+[NOTE.speaker]
+--
+Les objest échangés, on peut aller assez loins dedans avec de l'héritage
+--
+
+== My little contract
+
+image::API.png[]
+
+[NOTE.speaker]
+--
+Bien sur seul l'un d'eux marche vraiment,
+les autres ne sont la que pour montrer qu'il y a un vrai marché qui se monte sur le sujet ces dernieres annees
+--
+
+== Contract creation
+
+image::editors.png[]
+
+[NOTE.speaker]
+--
+On prend son editeur favoris
+--
+
+[transition=fade]
+== And now?
+
+image::travolta.jpg[canvas,size=contain]
+[NOTE.speaker]
+--
+On est contract first, enfin je crois.
+Il faut quelque chose pour faire la glue entre api et code.
+--
+
+[transition=fade]
+== Generated DTO vs Domain
+
+[fragment]#Skip model generation and code them#
+
+[hidden]#Pony#
+
+[NOTE.speaker]
+--
+Solution simple
+--
+
+[transition=fade]
+== Generated DTO vs Domain
+
+[.line-through]#Skip model generation and code them#
+
+Use mapper like mapstruct
+
+[NOTE.speaker]
+--
+Ca permet de ne récupérer que les parties qui nous interessent
+
+Plusieurs versions de l'api peuvent cohabiter (test de non reg, migration progressive a une v2)
+--
+
+== API version handling
+
+[fragment]#Generate client version is easy#
+
+[fragment]#API upgrade impacts = compile issue#
+
+
+[NOTE.speaker]
+--
+Il est facile de maintenir plusieurs version d'un client pour des tests d'integration.
+
+Les breaking changes se voient a la compilation
+--
+
+== Next steps
+
+[fragment]#Custom generator template#
+
+[fragment]#Generate documentation#
+
+[fragment]#Generate mock services#
+
+https://github.com/daveshanley/vacuum?tab=readme-ov-file
+
+[NOTE.speaker]
+--
+Parfois le template ne correspond pas, ou on a de l'existent, ils sont extensibles
+
+On peut tout générer meme de la documentation d'api
+
+Generation de mocks très rapide
+--
+
+== Do I need that?
+
+[fragment]#Mission Critical APIs.#
+
+[fragment]#When your API’s target audience are external customers#
+
+include::end.adoc[]
+
