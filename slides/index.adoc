@@ -103,9 +103,9 @@ mais il est brut
 
 == Add details
 
-[source, java]
+[%linenums,java]
 ----
-@Operation(
+   wsad @Operation(
   summary = "Create a new pet",
   description = "Create a new pet after validating it is not already exist in the database",
   operationId = "createPet",
